@@ -1,0 +1,113 @@
+package repository
+
+import (
+	"log"
+	"mock-graphql-server/graph/model"
+	db "mock-graphql-server/internal/pkg/db/mysql"
+	"strconv"
+)
+
+// QueryAllDrinks return all drinks in table
+func QueryAllDrinks() ([]*model.Drink, error) {
+	selectAllQuery, err := db.Db.Prepare("select * from Drinks")
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer selectAllQuery.Close()
+
+	rows, err := selectAllQuery.Query()
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var drinks []*model.Drink
+	for rows.Next() {
+		var drink model.Drink
+		rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML)
+		drinks = append(drinks, &drink)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	return drinks, nil
+}
+
+// QueryDrinkID return drink with respective ID
+func QueryDrinkID(id *string) (*model.Drink, error) {
+	selectQuery, err := db.Db.Prepare("select * from Drinks where id=?")
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer selectQuery.Close()
+
+	rows, err := selectQuery.Query(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var drink model.Drink
+	for rows.Next() {
+		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	return &drink, nil
+}
+
+// InsertDrink creates new drink
+func InsertDrink(drink model.Drink) (int64, error) {
+	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL) VALUES(?,?,?,?,?)")
+	if err != nil {
+		return 0, err
+	}
+	defer insertQuery.Close()
+
+	res, err := insertQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
+
+func UpdateDrinkByID(id *string, drink model.Drink) (int64, error) {
+	updateQuery, err := db.Db.Prepare(`
+		update Drinks set name=?, flavour=?, price=?, type=?, mL=?
+		where id=?
+	`)
+	if err != nil {
+		return 0, err
+	}
+	defer updateQuery.Close()
+
+	_, err = updateQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, id)
+	if err != nil {
+		return 0, err
+	}
+
+	updatedAt, err := strconv.ParseInt(*id, 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return updatedAt, nil
+}
