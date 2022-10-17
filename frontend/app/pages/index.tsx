@@ -15,11 +15,15 @@ export async function getStaticProps() {
   };
 }
 
-interface HomeProps {
-    allPostsData: any;
+type AllPostDataType = {
+    id: string;
+    date: string;
+    title: string;
 }
 
-const Home: NextPage = ({ allPostsData }: HomeProps) => {
+type HomeProps = { allPostsData: AllPostDataType[] }
+
+const Home: NextPage<HomeProps> = ({ allPostsData }) => {
   return (
       <Layout home>
         <Head>
