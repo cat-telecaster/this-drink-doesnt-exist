@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Date from '../components/date';
-import InputAdornments from '../components/entry-form-components/text-field';
+import InputAdornments from '../components/entry-form-components/input-boxes';
 import TypeSelectBox from '../components/entry-form-components/type-selectbox';
 import SubmitDeleteButtons from '../components/entry-form-components/buttons';
 import Layout, { siteTitle } from '../components/layout';
