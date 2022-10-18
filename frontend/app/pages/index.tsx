@@ -1,9 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Date from '../components/date';
-import InputAdornments from '../components/entry-form-components/input-boxes';
-import TypeSelectBox from '../components/entry-form-components/type-selectbox';
-import SubmitDeleteButtons from '../components/entry-form-components/buttons';
+import EntryForm from '../components/entry-form';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from "../lib/posts";
@@ -34,11 +32,7 @@ const Home: NextPage<HomeProps> = ({ allPostsData }) => {
         </Head>
         <section className={utilStyles.headingMd}>
             <h2 className={utilStyles.headingLg}>AIAIAIAAIIAIAIAIIIIIIAAAAAA</h2>
-            <div className={utilStyles.entryForm}>
-                <InputAdornments/>
-                <TypeSelectBox/>
-                <SubmitDeleteButtons/>
-            </div>
+            <EntryForm/>
         </section>
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
