@@ -16,6 +16,7 @@
     "@mui/material": "^5.10.9",
     "@mui/styled-engine": "^5.10.8",
     "date-fns": "^2.29.3",
+    "graphql-request": "^5.0.0",
     "gray-matter": "^4.0.3",
     "next": "12.3.1",
     "react": "18.2.0",

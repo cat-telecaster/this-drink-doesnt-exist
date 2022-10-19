@@ -1,0 +1,10 @@
+query getDrinks {
+    drinks {
+        id
+        name
+        flavour
+        price
+        type
+        mL
+    }
+}
