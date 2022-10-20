@@ -3,6 +3,26 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import { GraphQLClient } from "graphql-request";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef } from "react";
+
+import { getSdkWithHooks } from "../types/generated/graphql";
+
+export async function getSortedDrinksData() {
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+    };
+    const sdk = getSdkWithHooks(
+        new GraphQLClient(`${process.env.API_ENDPOINT}`, {
+            headers
+        })
+    );
+
+    const response = await sdk.getDrinks({});
+
+    return response.drinks;
+};
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 

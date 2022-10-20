@@ -1,0 +1,10 @@
+query getDrinkID($id: ID!) {
+    drinkID(id: $id) {
+        id
+        name
+        flavour
+        price
+        type
+        mL
+    }
+}

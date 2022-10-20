@@ -1,0 +1,16 @@
+overwrite: true
+schema:
+  - "../../graphql-serv/graph/*.graphqls"
+documents: "./graphql/**/*.graphql"
+generates:
+  types/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-graphql-request"
+      - "plugin-typescript-swr"
+    config:
+      rawRequest: false
+      enumsAsConst: true
+sort: false
+

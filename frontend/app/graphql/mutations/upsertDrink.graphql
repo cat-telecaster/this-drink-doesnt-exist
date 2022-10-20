@@ -1,0 +1,18 @@
+mutation upsertDrink ($name: String!, $flavour: String!, $type: String!, $mL: Int!, $price: Int) {
+    upsertDrink(
+        input: {
+            name: $name,
+            flavour: $flavour,
+            type: $type,
+            mL: $mL,
+            price: $price
+        }
+    ) {
+        id
+        name
+        flavour
+        price
+        type
+        mL
+    }
+}
