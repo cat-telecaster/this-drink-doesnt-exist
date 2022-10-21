@@ -4,16 +4,16 @@ import Date from '../components/date';
 import EntryForm from '../components/entry-form';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
-import { getSortedPostsData, getSortedDrinksData } from "../lib/posts";
-import {NextPage} from "next";
+import { getSortedPostsData } from "../lib/posts";
+import { NextPage } from "next";
 
 export async function getStaticProps() {
-  const allPostsData = await getSortedDrinksData();
-  return {
-    props: {
-      allPostsData
-    },
-  };
+    const allPostsData = await getSortedPostsData();
+    return {
+        props: {
+            allPostsData
+        },
+    };
 }
 
 type AllPostDataType = {
@@ -23,14 +23,14 @@ type AllPostDataType = {
     price: number;
     type: string;
     mL: number;
-    // date: string;
+    date?: string;
     // title: string;
 }
 
 type HomeProps = { allPostsData: AllPostDataType[] }
 
 const Home: NextPage<HomeProps> = ({ allPostsData }) => {
-  return (
+    return (
       <Layout home>
         <Head>
           <title>{siteTitle}</title>
@@ -56,7 +56,7 @@ const Home: NextPage<HomeProps> = ({ allPostsData }) => {
           </ul>
         </section>
       </Layout>
-  );
+    );
 }
 
 export default Home

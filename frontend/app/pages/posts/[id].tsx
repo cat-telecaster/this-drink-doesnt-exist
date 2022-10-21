@@ -14,7 +14,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+    const paths = await getAllPostIds();
     return {
         paths,
         fallback: false,
@@ -24,14 +24,14 @@ export async function getStaticPaths() {
 export default function Post({ postData }) {
     return <Layout>
         <Head>
-            <title>{postData.title}</title>
+            <title>{postData.name}</title>
         </Head>
         <article>
-            <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+            <h1 className={utilStyles.headingXl}>{postData.name}</h1>
             <div className={utilStyles.lightText}>
-                <Date dateString={postData.date} />
+                {/*<Date dateString={postData.date} />*/}
             </div>
-            <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+            <div dangerouslySetInnerHTML={{ __html: postData.flavour }} />
         </article>
     </Layout>
 }

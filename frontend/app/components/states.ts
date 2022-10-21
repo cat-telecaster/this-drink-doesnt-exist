@@ -8,6 +8,23 @@ interface InputBoxValuesInterface {
     price: NumField;
 };
 
+// interface AllPostDataInterface {
+//     id: string;
+//     name: string;
+//     flavour: string;
+//     price: number;
+//     type: string;
+//     mL: number;
+//     date?: string;
+//     // title: string;
+// }
+//
+// const allPostDataState = atom({
+//     key: 'allPostDataState',
+//     default: <AllPostDataInterface[]>[],
+// })
+
+
 const inputBoxState = atom({
     key: 'inputBoxState',
     default: <InputBoxValuesInterface>{
