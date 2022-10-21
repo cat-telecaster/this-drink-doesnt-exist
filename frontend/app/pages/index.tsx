@@ -4,11 +4,11 @@ import Date from '../components/date';
 import EntryForm from '../components/entry-form';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
-import { getSortedPostsData } from "../lib/posts";
+import { getSortedPostsData, getSortedDrinksData } from "../lib/posts";
 import {NextPage} from "next";
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+  const allPostsData = await getSortedDrinksData();
   return {
     props: {
       allPostsData
@@ -18,8 +18,13 @@ export async function getStaticProps() {
 
 type AllPostDataType = {
     id: string;
-    date: string;
-    title: string;
+    name: string;
+    flavour: string;
+    price: number;
+    type: string;
+    mL: number;
+    // date: string;
+    // title: string;
 }
 
 type HomeProps = { allPostsData: AllPostDataType[] }
@@ -37,15 +42,15 @@ const Home: NextPage<HomeProps> = ({ allPostsData }) => {
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
           <ul className={utilStyles.list}>
-            {allPostsData?.map(({ id, date, title }) => (
+            {allPostsData?.map(({ id, name }) => (
                 <li className={utilStyles.listItem} key={id}>
                   <Link href={`/posts/${id}`}>
-                    <a>{title}</a>
+                    <a>{name}</a>
                   </Link>
                   <br />
-                  <small className={utilStyles.lightText}>
-                    <Date dateString={date} />
-                  </small>
+                  {/*<small className={utilStyles.lightText}>*/}
+                  {/*  <Date dateString={date} />*/}
+                  {/*</small>*/}
                 </li>
             ))}
           </ul>

@@ -43,6 +43,8 @@ export default function DrinkDescInputBoxes() {
             let buff: StrField | NumField;
             buff = fieldValidation[componentID](event.target.value);
 
+            //await getSortedDrinksData();
+
             setValues({ ...values, [prop]: buff });
         };
 

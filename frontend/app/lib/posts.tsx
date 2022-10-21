@@ -14,12 +14,12 @@ export async function getSortedDrinksData() {
         "Content-Type": "application/json",
     };
     const sdk = getSdkWithHooks(
-        new GraphQLClient(`${process.env.API_ENDPOINT}`, {
+        new GraphQLClient(`${process.env.API_ENDPOINT}` + '/query', {
             headers
         })
     );
 
-    const response = await sdk.getDrinks({});
+    const response = await sdk.getDrinks();
 
     return response.drinks;
 };
