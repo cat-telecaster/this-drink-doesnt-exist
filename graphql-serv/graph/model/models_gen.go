@@ -3,12 +3,13 @@
 package model
 
 type Drink struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Flavour string `json:"flavour"`
-	Price   *int   `json:"price"`
-	Type    string `json:"type"`
-	ML      int    `json:"mL"`
+	ID        string  `json:"id"`
+	Name      string  `json:"name"`
+	Flavour   string  `json:"flavour"`
+	Price     *int    `json:"price"`
+	Type      string  `json:"type"`
+	ML        int     `json:"mL"`
+	CreatedAt *string `json:"createdAt"`
 }
 
 type NewDrink struct {

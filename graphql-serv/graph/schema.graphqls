@@ -9,6 +9,7 @@ type Drink {
   price: Int
   type: String!
   mL: Int!
+  createdAt: String
 }
 
 type Query {
