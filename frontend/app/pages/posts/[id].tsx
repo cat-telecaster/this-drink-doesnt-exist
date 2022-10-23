@@ -6,7 +6,6 @@ import utilStyles from '../../styles/utils.module.css';
 
 export async function getStaticProps({ params }: any) {
     const postData = await getPostData(params.id);
-    console.log(postData);
     return {
         props: {
             postData,

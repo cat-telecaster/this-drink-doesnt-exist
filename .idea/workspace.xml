@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01d29e92-1877-48ee-8439-4d5e5fe2d496" name="Changes" comment="">
+    <list default="true" id="01d29e92-1877-48ee-8439-4d5e5fe2d496" name="Changes" comment="MySQL migration files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +66,7 @@
       <updated>1666171090616</updated>
       <workItem from="1666171097493" duration="32886000" />
       <workItem from="1666444144907" duration="3999000" />
-      <workItem from="1666506423383" duration="4927000" />
+      <workItem from="1666506423383" duration="5551000" />
     </task>
     <task id="LOCAL-00001" summary="added migrations for created_at column">
       <created>1666511212377</created>
