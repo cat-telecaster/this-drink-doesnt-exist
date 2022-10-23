@@ -45,12 +45,13 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Drink struct {
-		Flavour func(childComplexity int) int
-		ID      func(childComplexity int) int
-		ML      func(childComplexity int) int
-		Name    func(childComplexity int) int
-		Price   func(childComplexity int) int
-		Type    func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		Flavour   func(childComplexity int) int
+		ID        func(childComplexity int) int
+		ML        func(childComplexity int) int
+		Name      func(childComplexity int) int
+		Price     func(childComplexity int) int
+		Type      func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -85,6 +86,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Drink.createdAt":
+		if e.complexity.Drink.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Drink.CreatedAt(childComplexity), true
 
 	case "Drink.flavour":
 		if e.complexity.Drink.Flavour == nil {
@@ -239,6 +247,7 @@ type Drink {
   price: Int
   type: String!
   mL: Int!
+  createdAt: String
 }
 
 type Query {
@@ -610,6 +619,47 @@ func (ec *executionContext) fieldContext_Drink_mL(ctx context.Context, field gra
 	return fc, nil
 }
 
+func (ec *executionContext) _Drink_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Drink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Drink_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Drink_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Drink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_upsertDrink(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_upsertDrink(ctx, field)
 	if err != nil {
@@ -661,6 +711,8 @@ func (ec *executionContext) fieldContext_Mutation_upsertDrink(ctx context.Contex
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Drink", field.Name)
 		},
@@ -727,6 +779,8 @@ func (ec *executionContext) fieldContext_Query_drinkID(ctx context.Context, fiel
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Drink", field.Name)
 		},
@@ -796,6 +850,8 @@ func (ec *executionContext) fieldContext_Query_drinks(ctx context.Context, field
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Drink", field.Name)
 		},
@@ -2830,6 +2886,10 @@ func (ec *executionContext) _Drink(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createdAt":
+
+			out.Values[i] = ec._Drink_createdAt(ctx, field, obj)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
