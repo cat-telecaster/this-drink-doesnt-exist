@@ -26,7 +26,7 @@ func QueryAllDrinks() ([]*model.Drink, error) {
 	var drinks []*model.Drink
 	for rows.Next() {
 		var drink model.Drink
-		rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML)
+		rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.CreatedAt)
 		drinks = append(drinks, &drink)
 	}
 
@@ -55,7 +55,7 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 
 	var drink model.Drink
 	for rows.Next() {
-		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML)
+		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.CreatedAt)
 		if err != nil {
 			log.Fatal(err)
 		}
