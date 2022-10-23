@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS Drinks(
     type VARCHAR(255) NOT NULL,
     mL INT NOT NULL,
     PRIMARY KEY (ID)
-)
+);
