@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="01d29e92-1877-48ee-8439-4d5e5fe2d496" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/graph/generated/generated.go" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/graph/generated/generated.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/graph/model/models_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/graph/model/models_gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/graph/schema.graphqls" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/graph/schema.graphqls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/migrations/mysql/000001_Drinks.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/migrations/mysql/000001_Drinks.down.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/migrations/mysql/000001_Drinks.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/migrations/mysql/000001_Drinks.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/internal/pkg/db/repository/repository.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,8 +66,44 @@
       <updated>1666171090616</updated>
       <workItem from="1666171097493" duration="32886000" />
       <workItem from="1666444144907" duration="3999000" />
-      <workItem from="1666506423383" duration="4621000" />
+      <workItem from="1666506423383" duration="4927000" />
     </task>
+    <task id="LOCAL-00001" summary="added migrations for created_at column">
+      <created>1666511212377</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1666511212377</updated>
+    </task>
+    <task id="LOCAL-00002" summary="regenerated for created_at column in frontend req">
+      <created>1666511243114</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1666511243114</updated>
+    </task>
+    <task id="LOCAL-00003" summary="gqlcodegen update from schema change">
+      <created>1666511264539</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666511264539</updated>
+    </task>
+    <task id="LOCAL-00004" summary="adjusted repo for created_at column">
+      <created>1666511287429</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1666511287429</updated>
+    </task>
+    <task id="LOCAL-00005" summary="MySQL migration files">
+      <created>1666511309824</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1666511309824</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -89,6 +119,14 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added migrations for created_at column" />
+    <MESSAGE value="regenerated for created_at column in frontend req" />
+    <MESSAGE value="gqlcodegen update from schema change" />
+    <MESSAGE value="adjusted repo for created_at column" />
+    <MESSAGE value="MySQL migration files" />
+    <option name="LAST_COMMIT_MESSAGE" value="MySQL migration files" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

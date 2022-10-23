@@ -6,5 +6,6 @@ query getDrinkID($id: ID!) {
         price
         type
         mL
+        createdAt
     }
 }

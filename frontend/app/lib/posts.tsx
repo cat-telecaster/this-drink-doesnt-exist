@@ -38,7 +38,7 @@ export async function getAllPostIds() {
         "Content-Type": "application/json",
     };
     const sdk = getSdkWithHooks(
-        new GraphQLClient(`${process.env.API_ENDPOINT}/query`, {
+        new GraphQLClient(`${process.env.API_ENDPOINT}` + '/query', {
             headers
         })
     );

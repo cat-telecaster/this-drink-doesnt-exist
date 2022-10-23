@@ -6,5 +6,6 @@ query getDrinks {
         price
         type
         mL
+        createdAt
     }
 }

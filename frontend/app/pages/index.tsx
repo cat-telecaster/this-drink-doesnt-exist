@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Date from '../components/date';
+import { ShowDate } from '../components/date';
 import EntryForm from '../components/entry-form';
 import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
@@ -23,7 +23,7 @@ type AllPostDataType = {
     price: number;
     type: string;
     mL: number;
-    date?: string;
+    createdAt: string;
     // title: string;
 }
 
@@ -42,15 +42,15 @@ const Home: NextPage<HomeProps> = ({ allPostsData }) => {
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Blog</h2>
           <ul className={utilStyles.list}>
-            {allPostsData?.map(({ id, name }) => (
+            {allPostsData?.map(({ id, name, createdAt }) => (
                 <li className={utilStyles.listItem} key={id}>
                   <Link href={`/posts/${id}`}>
                     <a>{name}</a>
                   </Link>
                   <br />
-                  {/*<small className={utilStyles.lightText}>*/}
-                  {/*  <Date dateString={date} />*/}
-                  {/*</small>*/}
+                  <small className={utilStyles.lightText}>
+                    <ShowDate dateTimeString={createdAt} />
+                  </small>
                 </li>
             ))}
           </ul>
