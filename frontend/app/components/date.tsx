@@ -1,10 +1,15 @@
 import { parseISO, format } from 'date-fns';
 
-interface DateProps {
-    dateString: string;
+interface DateTimeProps {
+    dateTimeString: string;
 }
 
-export default function Date({ dateString }: DateProps) {
-    const date = parseISO(dateString);
-    return <time dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>
+export function ShowDate({ dateTimeString }: DateTimeProps) {
+    const date = parseISO(dateTimeString)
+    return <time dateTime={dateTimeString}>{format(date, "yyyy-MM-dd")}</time>
+}
+
+export function ShowDateTime({ dateTimeString }: DateTimeProps) {
+    const date = parseISO(dateTimeString)
+    return <time dateTime={dateTimeString}>{format(date, "yyyy-MM-dd HH:mm:ss")}</time>
 }

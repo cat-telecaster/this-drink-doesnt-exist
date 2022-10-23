@@ -1,11 +1,12 @@
 import Layout from '../../components/layout';
 import { getAllPostIds, getPostData } from '../../lib/posts';
-import Date from '../../components/date';
+import { ShowDateTime } from '../../components/date';
 import Head from 'next/head';
 import utilStyles from '../../styles/utils.module.css';
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: any) {
     const postData = await getPostData(params.id);
+    console.log(postData);
     return {
         props: {
             postData,
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
     };
 }
 
-export default function Post({ postData }) {
+export default function Post({ postData }: any) {
     return <Layout>
         <Head>
             <title>{postData.name}</title>
@@ -29,9 +30,9 @@ export default function Post({ postData }) {
         <article>
             <h1 className={utilStyles.headingXl}>{postData.name}</h1>
             <div className={utilStyles.lightText}>
-                {/*<Date dateString={postData.date} />*/}
+                <ShowDateTime dateTimeString={postData.createdAt} />
             </div>
-            <div dangerouslySetInnerHTML={{ __html: postData.flavour }} />
+            <div dangerouslySetInnerHTML={{ __html: `<p>${postData.flavour}</p><p>￥${postData.price}</p><p>${postData.type}</p><p>${postData.mL} mL</p>` }} />
         </article>
     </Layout>
 }

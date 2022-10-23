@@ -25,6 +25,7 @@ export type Drink = {
   price?: Maybe<Scalars['Int']>;
   type: Scalars['String'];
   mL: Scalars['Int'];
+  createdAt?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -68,17 +69,17 @@ export type UpsertDrinkMutationVariables = Exact<{
 
 export type UpsertDrinkMutation = { __typename?: 'Mutation', upsertDrink: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number } };
 
+export type GetDrinksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDrinksQuery = { __typename?: 'Query', drinks: Array<{ __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, createdAt?: string | null } | null> };
+
 export type GetDrinkIdQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetDrinkIdQuery = { __typename?: 'Query', drinkID?: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number } | null };
-
-export type GetDrinksQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetDrinksQuery = { __typename?: 'Query', drinks: Array<{ __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number } | null> };
+export type GetDrinkIdQuery = { __typename?: 'Query', drinkID?: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, createdAt?: string | null } | null };
 
 
 export const UpsertDrinkDocument = gql`
@@ -86,18 +87,6 @@ export const UpsertDrinkDocument = gql`
   upsertDrink(
     input: {name: $name, flavour: $flavour, type: $type, mL: $mL, price: $price}
   ) {
-    id
-    name
-    flavour
-    price
-    type
-    mL
-  }
-}
-    `;
-export const GetDrinkIdDocument = gql`
-    query getDrinkID($id: ID!) {
-  drinkID(id: $id) {
     id
     name
     flavour
@@ -116,6 +105,20 @@ export const GetDrinksDocument = gql`
     price
     type
     mL
+    createdAt
+  }
+}
+    `;
+export const GetDrinkIdDocument = gql`
+    query getDrinkID($id: ID!) {
+  drinkID(id: $id) {
+    id
+    name
+    flavour
+    price
+    type
+    mL
+    createdAt
   }
 }
     `;
@@ -130,11 +133,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     upsertDrink(variables: UpsertDrinkMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertDrinkMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpsertDrinkMutation>(UpsertDrinkDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertDrink', 'mutation');
     },
-    getDrinkID(variables: GetDrinkIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDrinkIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetDrinkIdQuery>(GetDrinkIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDrinkID', 'query');
-    },
     getDrinks(variables?: GetDrinksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDrinksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDrinksQuery>(GetDrinksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDrinks', 'query');
+    },
+    getDrinkID(variables: GetDrinkIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDrinkIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetDrinkIdQuery>(GetDrinkIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDrinkID', 'query');
     }
   };
 }
@@ -143,11 +146,11 @@ export function getSdkWithHooks(client: GraphQLClient, withWrapper: SdkFunctionW
   const sdk = getSdk(client, withWrapper);
   return {
     ...sdk,
-    useGetDrinkId(key: SWRKeyInterface, variables: GetDrinkIdQueryVariables, config?: SWRConfigInterface<GetDrinkIdQuery, ClientError>) {
-      return useSWR<GetDrinkIdQuery, ClientError>(key, () => sdk.getDrinkID(variables), config);
-    },
     useGetDrinks(key: SWRKeyInterface, variables?: GetDrinksQueryVariables, config?: SWRConfigInterface<GetDrinksQuery, ClientError>) {
       return useSWR<GetDrinksQuery, ClientError>(key, () => sdk.getDrinks(variables), config);
+    },
+    useGetDrinkId(key: SWRKeyInterface, variables: GetDrinkIdQueryVariables, config?: SWRConfigInterface<GetDrinkIdQuery, ClientError>) {
+      return useSWR<GetDrinkIdQuery, ClientError>(key, () => sdk.getDrinkID(variables), config);
     }
   };
 }
