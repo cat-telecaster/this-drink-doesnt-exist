@@ -13,4 +13,3 @@ generates:
       rawRequest: false
       enumsAsConst: true
 sort: false
-
