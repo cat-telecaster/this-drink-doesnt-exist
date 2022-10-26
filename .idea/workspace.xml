@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="01d29e92-1877-48ee-8439-4d5e5fe2d496" name="Changes" comment="MySQL migration files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphql-serv/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/graphql-serv/server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +69,7 @@
       <workItem from="1666171097493" duration="32886000" />
       <workItem from="1666444144907" duration="3999000" />
       <workItem from="1666506423383" duration="5551000" />
-      <workItem from="1666747236616" duration="10344000" />
+      <workItem from="1666747236616" duration="14047000" />
     </task>
     <task id="LOCAL-00001" summary="added migrations for created_at column">
       <created>1666511212377</created>

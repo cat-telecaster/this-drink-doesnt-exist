@@ -1,31 +1,23 @@
 import { GraphQLClient } from "graphql-request";
 import { getSdkWithHooks, UpsertDrinkMutation, NewDrink } from "../types/generated/graphql";
 
-export async function getSortedPostsData() {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-    };
-    const sdk = getSdkWithHooks(
-        new GraphQLClient(`${process.env.API_ENDPOINT}` + '/query', {
-            headers
-        })
-    );
+const API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_ENDPOINT}`;
+const headers: Record<string, string> = {
+    "Content-Type": "application/json"
+};
+const sdk = getSdkWithHooks(
+    new GraphQLClient(API_ENDPOINT, {
+        headers
+    })
+);
 
+export async function getSortedPostsData() {
     const response = await sdk.getDrinks();
 
     return response.drinks;
 };
 
 export async function getPostData(id: string) {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-    };
-    const sdk = getSdkWithHooks(
-        new GraphQLClient(`${process.env.API_ENDPOINT}` + '/query', {
-            headers
-        })
-    );
-
     const response = await sdk.getDrinkID({
         id,
     });
@@ -34,15 +26,6 @@ export async function getPostData(id: string) {
 }
 
 export async function getAllPostIds() {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-    };
-    const sdk = getSdkWithHooks(
-        new GraphQLClient(`${process.env.API_ENDPOINT}` + '/query', {
-            headers
-        })
-    );
-
     // idk how to get only ids with graphql-codegen
     const response = await sdk.getDrinks();
 
@@ -70,15 +53,6 @@ export async function getAllPostIds() {
 }
 
 export async function upsertNewPost(newData: NewDrink): Promise<UpsertDrinkMutation> {
-    const headers: Record<string, string> = {
-        "Content-Type": "application/json"
-    };
-    const sdk = getSdkWithHooks(
-        new GraphQLClient('http://localhost:8080/query', {
-            headers
-        })
-    );
-
     const response = await sdk.upsertDrink({
         name: newData.name,
         flavour: newData.flavour,
