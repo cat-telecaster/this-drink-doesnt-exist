@@ -1,5 +1,5 @@
 import { GraphQLClient } from "graphql-request";
-import { getSdkWithHooks } from "../types/generated/graphql";
+import { getSdkWithHooks, UpsertDrinkMutation, NewDrink } from "../types/generated/graphql";
 
 export async function getSortedPostsData() {
     const headers: Record<string, string> = {
@@ -69,4 +69,22 @@ export async function getAllPostIds() {
     });
 }
 
+export async function upsertNewPost(newData: NewDrink): Promise<UpsertDrinkMutation> {
+    const headers: Record<string, string> = {
+        "Content-Type": "application/json"
+    };
+    const sdk = getSdkWithHooks(
+        new GraphQLClient('http://localhost:8080/query', {
+            headers
+        })
+    );
 
+    const response = await sdk.upsertDrink({
+        name: newData.name,
+        flavour: newData.flavour,
+        type: newData.type,
+        mL: newData.mL,
+        price: newData.price,
+    });
+    return response;
+}

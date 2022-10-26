@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { StrField, NumField } from "../types/types";
+import { UpsertDrinkMutationVariables } from "../types/generated/graphql";
 
 interface InputBoxValuesInterface {
     name: StrField;
@@ -7,23 +8,6 @@ interface InputBoxValuesInterface {
     size: NumField;
     price: NumField;
 };
-
-// interface AllPostDataInterface {
-//     id: string;
-//     name: string;
-//     flavour: string;
-//     price: number;
-//     type: string;
-//     mL: number;
-//     date?: string;
-//     // title: string;
-// }
-//
-// const allPostDataState = atom({
-//     key: 'allPostDataState',
-//     default: <AllPostDataInterface[]>[],
-// })
-
 
 const inputBoxState = atom({
     key: 'inputBoxState',
@@ -40,4 +24,21 @@ const typeSelectorState = atom({
     default: ''
 });
 
-export { inputBoxState, typeSelectorState }
+const newDrinkState = selector({
+    key: 'newDrinkState',
+    get: ({get}) => {
+        const inputBoxData = get(inputBoxState);
+        const typeData = get(typeSelectorState);
+
+        return <UpsertDrinkMutationVariables>{
+            name: inputBoxData.name.val,
+            flavour: inputBoxData.flavour.val,
+            type: typeData,
+            mL: inputBoxData.size.val,
+            price: inputBoxData.price.val,
+        }
+    }
+})
+
+export { inputBoxState, typeSelectorState, newDrinkState };
+

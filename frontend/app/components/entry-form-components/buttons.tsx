@@ -3,12 +3,14 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import {useRecoilState, useResetRecoilState} from 'recoil';
-import { inputBoxState, typeSelectorState } from '../states';
+import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
+import { inputBoxState, typeSelectorState, newDrinkState } from '../states';
+import { upsertNewPost } from "../../lib/posts";
 
 export default function SubmitDeleteButtons() {
     const [inputBoxValues, setInputBoxValues] = useRecoilState(inputBoxState);
     const [typeSelectorValue, setTypeSelectorValue] = useRecoilState(typeSelectorState);
+    const upsertValue = useRecoilValue(newDrinkState);
 
     const inputBoxReset = useResetRecoilState(inputBoxState);
     const typeSelectorReset = useResetRecoilState(typeSelectorState);
@@ -16,6 +18,14 @@ export default function SubmitDeleteButtons() {
     const clearAll = () => {
         inputBoxReset();
         typeSelectorReset();
+    }
+
+    const submitNewDrink = async () => {
+        try {
+            await upsertNewPost(upsertValue);
+        } catch (e) {
+            alert(e);
+        }
     }
 
     return (
@@ -29,6 +39,7 @@ export default function SubmitDeleteButtons() {
             </Button>
             <Button
                 variant="contained"
+                onClick={submitNewDrink}
                 disabled={(inputBoxValues.name.err || inputBoxValues.flavour.err || inputBoxValues.size.err || inputBoxValues.price.err
                     || !typeSelectorValue)}
                 endIcon={<SendIcon />}

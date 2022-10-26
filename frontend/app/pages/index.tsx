@@ -16,7 +16,7 @@ export async function getStaticProps() {
     };
 }
 
-type AllPostDataType = {
+export type AllPostDataType = {
     id: string;
     name: string;
     flavour: string;
@@ -24,7 +24,6 @@ type AllPostDataType = {
     type: string;
     mL: number;
     createdAt: string;
-    // title: string;
 }
 
 type HomeProps = { allPostsData: AllPostDataType[] }
