@@ -26,6 +26,7 @@ export default function SubmitDeleteButtons() {
         } catch (e) {
             alert(e);
         }
+        location.reload();
     }
 
     return (
