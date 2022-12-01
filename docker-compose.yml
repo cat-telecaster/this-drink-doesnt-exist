@@ -6,14 +6,12 @@ services:
       - "3306:3306"
     networks:
       - local
-    volumes:
-      - ./backend/internal/pkg/db/migrations/mysql:/docker-entrypoint-initdb.d
+#    volumes:
+#      - ./backend/internal/pkg/db/migrations/mysql:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=drink_db
       - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=root
-#    volumes:
-#      - "./backend/internal/pkg/db/migrations/mysql:/docker-entrypoint-initdb.d"
     restart: on-failure
 networks:
   local:

@@ -21,7 +21,7 @@ vet:
 
 .PHONY: build
 build:
-	go build -v -o serv -ldflags "-X main.revision=$(shell git rev-parse HEAD)" ./cmd
+	go build -v -o serv -ldflags "-X main.revision=$(shell git rev-parse HEAD)" ./
 
 .PHONY: gqlgen
 gqlgen-app: gqlgen-shared
