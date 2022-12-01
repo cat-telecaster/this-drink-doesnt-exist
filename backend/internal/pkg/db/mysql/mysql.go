@@ -13,7 +13,7 @@ var Db *sql.DB
 
 func InitDB() {
 	// Use root:dbpass@tcp(172.17.0.2)/hackernews, if you're using Windows.
-	db, err := sql.Open("mysql", "root:dbpass@tcp(localhost)/graphql_vending")
+	db, err := sql.Open("mysql", "root:dbpass@tcp(localhost)/drink_db")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -35,7 +35,7 @@ func Migrate() {
 	driver, _ := mysql.WithInstance(Db, &mysql.Config{})
 	m, _ := migrate.NewWithDatabaseInstance(
 		"file://internal/pkg/db/migrations/mysql",
-		"mysql",
+		"drink_db",
 		driver,
 	)
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {

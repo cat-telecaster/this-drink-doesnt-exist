@@ -1,0 +1,20 @@
+version: "4.13"
+services:
+  db:
+    image: mysql/mysql-server:8.0.23
+    ports:
+      - "3306:3306"
+    networks:
+      - local
+    volumes:
+      - ./backend/internal/pkg/db/migrations/mysql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=drink_db
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=root
+#    volumes:
+#      - "./backend/internal/pkg/db/migrations/mysql:/docker-entrypoint-initdb.d"
+    restart: on-failure
+networks:
+  local:
+    driver: bridge

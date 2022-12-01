@@ -2,9 +2,10 @@ package repository
 
 import (
 	"log"
+	"strconv"
+
 	"mock-graphql-server/graph/model"
 	db "mock-graphql-server/internal/pkg/db/mysql"
-	"strconv"
 )
 
 // QueryAllDrinks return all drinks in table
