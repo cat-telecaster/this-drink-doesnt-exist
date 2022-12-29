@@ -7,7 +7,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"mock-graphql-server/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -16,6 +15,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+
+
+	"this-drink-doesnt-exist/graph/model"
 )
 
 // region    ************************** generated!.gotpl **************************

@@ -1,6 +1,6 @@
 package graph
 
-import "mock-graphql-server/graph/model"
+import "this-drink-doesnt-exist/graph/model"
 
 // This file will not be regenerated automatically.
 //

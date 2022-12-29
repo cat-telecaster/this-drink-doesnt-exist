@@ -4,8 +4,8 @@ import (
 	"log"
 	"strconv"
 
-	"mock-graphql-server/graph/model"
-	db "mock-graphql-server/internal/pkg/db/mysql"
+	"this-drink-doesnt-exist/graph/model"
+	db "this-drink-doesnt-exist/internal/pkg/db/mysql"
 )
 
 // QueryAllDrinks return all drinks in table

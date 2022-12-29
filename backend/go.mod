@@ -1,4 +1,4 @@
-module mock-graphql-server
+module this-drink-doesnt-exist
 
 go 1.19
 

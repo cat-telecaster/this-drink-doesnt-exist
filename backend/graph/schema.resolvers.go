@@ -6,10 +6,11 @@ package graph
 import (
 	"context"
 	"fmt"
-	"mock-graphql-server/graph/generated"
-	"mock-graphql-server/graph/model"
-	"mock-graphql-server/internal/pkg/db/repository"
 	"strconv"
+
+	"this-drink-doesnt-exist/graph/generated"
+	"this-drink-doesnt-exist/graph/model"
+	"this-drink-doesnt-exist/internal/pkg/db/repository"
 )
 
 // UpsertDrink is the resolver for the upsertDrink field.
@@ -33,7 +34,10 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 				return nil, fmt.Errorf("not found")
 			}
 			idStr := strconv.Itoa(int(updatedId))
-			updatedDrink, _ := repository.QueryDrinkID(&idStr)
+			updatedDrink, err := repository.QueryDrinkID(&idStr)
+			if err != nil {
+				return nil, fmt.Errorf("inserted drink not found")
+			}
 			return updatedDrink, nil
 		}
 	} else {
@@ -42,7 +46,10 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 			return nil, fmt.Errorf("not found")
 		}
 		idStr := strconv.Itoa(int(insertedId))
-		insertedDrink, _ := repository.QueryDrinkID(&idStr)
+		insertedDrink, err := repository.QueryDrinkID(&idStr)
+		if err != nil {
+			return nil, fmt.Errorf("inserted drink not found")
+		}
 		return insertedDrink, nil
 	}
 

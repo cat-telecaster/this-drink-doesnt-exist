@@ -1,20 +1,20 @@
 package main
 
 import (
-	"github.com/99designs/gqlgen/graphql/handler/transport"
-	"github.com/go-chi/chi/v5"
-	"github.com/gorilla/websocket"
-	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/websocket"
+	"github.com/rs/cors"
 
-	"mock-graphql-server/graph"
-	"mock-graphql-server/graph/generated"
-	db "mock-graphql-server/internal/pkg/db/mysql"
+	"this-drink-doesnt-exist/graph"
+	"this-drink-doesnt-exist/graph/generated"
+	db "this-drink-doesnt-exist/internal/pkg/db/mysql"
 )
 
 const defaultPort = "8080"
