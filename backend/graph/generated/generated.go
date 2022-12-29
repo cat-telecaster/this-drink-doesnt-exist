@@ -10,14 +10,12 @@ import (
 	"strconv"
 	"sync"
 	"sync/atomic"
+	"this-drink-doesnt-exist/graph/model"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
-
-
-	"this-drink-doesnt-exist/graph/model"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -47,13 +45,14 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Drink struct {
-		CreatedAt func(childComplexity int) int
-		Flavour   func(childComplexity int) int
-		ID        func(childComplexity int) int
-		ML        func(childComplexity int) int
-		Name      func(childComplexity int) int
-		Price     func(childComplexity int) int
-		Type      func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		Flavour     func(childComplexity int) int
+		ID          func(childComplexity int) int
+		ImageBase64 func(childComplexity int) int
+		ML          func(childComplexity int) int
+		Name        func(childComplexity int) int
+		Price       func(childComplexity int) int
+		Type        func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -109,6 +108,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Drink.ID(childComplexity), true
+
+	case "Drink.imageBase64":
+		if e.complexity.Drink.ImageBase64 == nil {
+			break
+		}
+
+		return e.complexity.Drink.ImageBase64(childComplexity), true
 
 	case "Drink.mL":
 		if e.complexity.Drink.ML == nil {
@@ -249,6 +255,7 @@ type Drink {
   price: Int
   type: String!
   mL: Int!
+  imageBase64: String!
   createdAt: String
 }
 
@@ -283,7 +290,7 @@ func (ec *executionContext) field_Mutation_upsertDrink_args(ctx context.Context,
 	var arg0 model.NewDrink
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewDrink2mockᚑgraphqlᚑserverᚋgraphᚋmodelᚐNewDrink(ctx, tmp)
+		arg0, err = ec.unmarshalNNewDrink2thisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐNewDrink(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -621,6 +628,50 @@ func (ec *executionContext) fieldContext_Drink_mL(ctx context.Context, field gra
 	return fc, nil
 }
 
+func (ec *executionContext) _Drink_imageBase64(ctx context.Context, field graphql.CollectedField, obj *model.Drink) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Drink_imageBase64(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ImageBase64, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Drink_imageBase64(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Drink",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Drink_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Drink) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Drink_createdAt(ctx, field)
 	if err != nil {
@@ -690,7 +741,7 @@ func (ec *executionContext) _Mutation_upsertDrink(ctx context.Context, field gra
 	}
 	res := resTmp.(*model.Drink)
 	fc.Result = res
-	return ec.marshalNDrink2ᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
+	return ec.marshalNDrink2ᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_upsertDrink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -713,6 +764,8 @@ func (ec *executionContext) fieldContext_Mutation_upsertDrink(ctx context.Contex
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "imageBase64":
+				return ec.fieldContext_Drink_imageBase64(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
@@ -758,7 +811,7 @@ func (ec *executionContext) _Query_drinkID(ctx context.Context, field graphql.Co
 	}
 	res := resTmp.(*model.Drink)
 	fc.Result = res
-	return ec.marshalODrink2ᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
+	return ec.marshalODrink2ᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_drinkID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -781,6 +834,8 @@ func (ec *executionContext) fieldContext_Query_drinkID(ctx context.Context, fiel
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "imageBase64":
+				return ec.fieldContext_Drink_imageBase64(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
@@ -829,7 +884,7 @@ func (ec *executionContext) _Query_drinks(ctx context.Context, field graphql.Col
 	}
 	res := resTmp.([]*model.Drink)
 	fc.Result = res
-	return ec.marshalNDrink2ᚕᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
+	return ec.marshalNDrink2ᚕᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_drinks(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -852,6 +907,8 @@ func (ec *executionContext) fieldContext_Query_drinks(ctx context.Context, field
 				return ec.fieldContext_Drink_type(ctx, field)
 			case "mL":
 				return ec.fieldContext_Drink_mL(ctx, field)
+			case "imageBase64":
+				return ec.fieldContext_Drink_imageBase64(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Drink_createdAt(ctx, field)
 			}
@@ -2888,6 +2945,13 @@ func (ec *executionContext) _Drink(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "imageBase64":
+
+			out.Values[i] = ec._Drink_imageBase64(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "createdAt":
 
 			out.Values[i] = ec._Drink_createdAt(ctx, field, obj)
@@ -3360,11 +3424,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNDrink2mockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v model.Drink) graphql.Marshaler {
+func (ec *executionContext) marshalNDrink2thisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v model.Drink) graphql.Marshaler {
 	return ec._Drink(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNDrink2ᚕᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v []*model.Drink) graphql.Marshaler {
+func (ec *executionContext) marshalNDrink2ᚕᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v []*model.Drink) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3388,7 +3452,7 @@ func (ec *executionContext) marshalNDrink2ᚕᚖmockᚑgraphqlᚑserverᚋgraph�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalODrink2ᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx, sel, v[i])
+			ret[i] = ec.marshalODrink2ᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3402,7 +3466,7 @@ func (ec *executionContext) marshalNDrink2ᚕᚖmockᚑgraphqlᚑserverᚋgraph�
 	return ret
 }
 
-func (ec *executionContext) marshalNDrink2ᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v *model.Drink) graphql.Marshaler {
+func (ec *executionContext) marshalNDrink2ᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v *model.Drink) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -3442,7 +3506,7 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewDrink2mockᚑgraphqlᚑserverᚋgraphᚋmodelᚐNewDrink(ctx context.Context, v interface{}) (model.NewDrink, error) {
+func (ec *executionContext) unmarshalNNewDrink2thisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐNewDrink(ctx context.Context, v interface{}) (model.NewDrink, error) {
 	res, err := ec.unmarshalInputNewDrink(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
@@ -3741,7 +3805,7 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) marshalODrink2ᚖmockᚑgraphqlᚑserverᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v *model.Drink) graphql.Marshaler {
+func (ec *executionContext) marshalODrink2ᚖthisᚑdrinkᚑdoesntᚑexistᚋgraphᚋmodelᚐDrink(ctx context.Context, sel ast.SelectionSet, v *model.Drink) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}

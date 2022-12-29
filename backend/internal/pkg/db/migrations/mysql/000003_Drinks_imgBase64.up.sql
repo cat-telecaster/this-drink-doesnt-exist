@@ -1,0 +1,2 @@
+ALTER TABLE Drinks
+    ADD image LONGBLOB;

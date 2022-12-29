@@ -10,6 +10,7 @@ import (
 
 	"this-drink-doesnt-exist/graph/generated"
 	"this-drink-doesnt-exist/graph/model"
+	"this-drink-doesnt-exist/internal/pkg/api"
 	"this-drink-doesnt-exist/internal/pkg/db/repository"
 )
 
@@ -22,6 +23,14 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 	drink.Type = input.Type
 	drink.ML = input.ML
 	drink.Name = input.Name
+
+	prompt := GeneratePrompt(input)
+	imageBase64, err := api.GenerateImage(prompt)
+	if err != nil {
+		return nil, <-err
+	}
+	img := <-imageBase64
+	drink.ImageBase64 = img.GeneratedImgs[0]
 
 	if id != nil {
 		queriedDrink, err := repository.QueryDrinkID(id)

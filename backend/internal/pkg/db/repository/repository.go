@@ -8,6 +8,8 @@ import (
 	db "this-drink-doesnt-exist/internal/pkg/db/mysql"
 )
 
+// TODO: add b64 -> binary data conversions when uploading to DB for imageBase64
+
 // QueryAllDrinks return all drinks in table
 func QueryAllDrinks() ([]*model.Drink, error) {
 	selectAllQuery, err := db.Db.Prepare("select * from Drinks")
