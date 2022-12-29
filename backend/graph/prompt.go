@@ -32,10 +32,10 @@ func GeneratePrompt(input model.NewDrink) string {
 		size = "horrifically large "
 	}
 
-	flavour := input.Flavour + "flavored "
-	drinkType := input.Type + "drink"
+	flavour := input.Flavour + " flavored "
+	drinkType := input.Type + " drink"
 
-	prompt := size + price + flavour + input.Name + drinkType
+	prompt := size + price + flavour + input.Name + " " + drinkType
 
 	return prompt
 }
