@@ -1,2 +1,2 @@
 ALTER TABLE Drinks
-    DROP COLUMN image_base_64;
+    DROP COLUMN image;
