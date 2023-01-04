@@ -11,6 +11,8 @@ import (
 	"this-drink-doesnt-exist/graph/model"
 )
 
+// TODO: fix the post request here
+
 func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
 	r := make(chan model.ImgGenResponse, 1)
 	errs := make(chan error, 1)
