@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"this-drink-doesnt-exist/graph/domain"
 	"this-drink-doesnt-exist/graph/generated"
 	"this-drink-doesnt-exist/graph/model"
 	"this-drink-doesnt-exist/internal/pkg/api"
@@ -17,20 +18,25 @@ import (
 // UpsertDrink is the resolver for the upsertDrink field.
 func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink) (*model.Drink, error) {
 	id := input.ID
-	var drink model.Drink
-	drink.Flavour = input.Flavour
-	drink.Price = input.Price
-	drink.Type = input.Type
-	drink.ML = input.ML
-	drink.Name = input.Name
 
 	prompt := GeneratePrompt(input)
-	imageBase64, err := api.GenerateImage(prompt)
-	if err != nil {
-		return nil, <-err
+	imageBase64, errCh := api.GenerateImage(prompt)
+	if errCh != nil {
+		return nil, <-errCh
 	}
 	img := <-imageBase64
-	drink.ImageBase64 = img.GeneratedImgs[0]
+
+	drink, err := domain.NewDrink(
+		input.Name,
+		input.Flavour,
+		input.Price,
+		input.Type,
+		input.ML,
+		img.GeneratedImgs[0],
+	)
+	if err != nil {
+		return nil, err
+	}
 
 	if id != nil {
 		queriedDrink, err := repository.QueryDrinkID(id)
@@ -38,7 +44,7 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 			return nil, err
 		}
 		if queriedDrink != nil {
-			updatedId, err := repository.UpdateDrinkByID(id, drink)
+			updatedId, err := repository.UpdateDrinkByID(id, *drink)
 			if err != nil {
 				return nil, fmt.Errorf("not found")
 			}
@@ -50,7 +56,7 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 			return updatedDrink, nil
 		}
 	} else {
-		insertedId, err := repository.InsertDrink(drink)
+		insertedId, err := repository.InsertDrink(*drink)
 		if err != nil {
 			return nil, fmt.Errorf("not found")
 		}
@@ -62,7 +68,9 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 		return insertedDrink, nil
 	}
 
-	return &drink, nil
+	gqlDrink := DrinkDomain2Gql(*id, drink)
+
+	return gqlDrink, nil
 }
 
 // DrinkID is the resolver for the drinkID field.
