@@ -4,6 +4,7 @@ import (
 	"log"
 	"strconv"
 
+	"this-drink-doesnt-exist/graph/domain"
 	"this-drink-doesnt-exist/graph/model"
 	db "this-drink-doesnt-exist/internal/pkg/db/mysql"
 )
@@ -58,7 +59,7 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 
 	var drink model.Drink
 	for rows.Next() {
-		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.CreatedAt)
+		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.ImageBase64, &drink.CreatedAt)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -72,14 +73,14 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 }
 
 // InsertDrink creates new drink
-func InsertDrink(drink model.Drink) (int64, error) {
-	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL) VALUES(?,?,?,?,?)")
+func InsertDrink(drink domain.Drink) (int64, error) {
+	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL,image,) VALUES(?,?,?,?,?)")
 	if err != nil {
 		return 0, err
 	}
 	defer insertQuery.Close()
 
-	res, err := insertQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML)
+	res, err := insertQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, drink.Image)
 	if err != nil {
 		return 0, err
 	}
@@ -92,9 +93,9 @@ func InsertDrink(drink model.Drink) (int64, error) {
 	return id, nil
 }
 
-func UpdateDrinkByID(id *string, drink model.Drink) (int64, error) {
+func UpdateDrinkByID(id *string, drink domain.Drink) (int64, error) {
 	updateQuery, err := db.Db.Prepare(`
-		update Drinks set name=?, flavour=?, price=?, type=?, mL=?
+		update Drinks set name=?, flavour=?, price=?, type=?, mL=?, image=?
 		where id=?
 	`)
 	if err != nil {
@@ -102,7 +103,7 @@ func UpdateDrinkByID(id *string, drink model.Drink) (int64, error) {
 	}
 	defer updateQuery.Close()
 
-	_, err = updateQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, id)
+	_, err = updateQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, drink.Image, id)
 	if err != nil {
 		return 0, err
 	}
