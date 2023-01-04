@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+
 	"this-drink-doesnt-exist/graph/model"
 )
 
@@ -31,9 +32,12 @@ func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
 		if err != nil {
 			errs <- err
 		}
-
 		defer resp.Body.Close()
+
 		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			errs <- err
+		}
 
 		// Unmarshal result
 		post := model.ImgGenResponse{}
