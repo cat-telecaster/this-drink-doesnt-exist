@@ -1,36 +1,45 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 
 	"this-drink-doesnt-exist/graph/model"
 )
 
-// TODO: fix the post request here
+type PostData struct {
+	Text      string `json:"text"`
+	NumImages int    `json:"num_images"`
+}
 
 func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
 	r := make(chan model.ImgGenResponse, 1)
 	errs := make(chan error, 1)
 
-	postParams := url.Values{}
-	postParams.Add("text", prompt)
-	postParams.Add("num_images", "1")
+	postData := &PostData{
+		Text:      prompt,
+		NumImages: 1,
+	}
 
 	go func() {
 		defer close(r)
 		defer close(errs)
 
-		postURL := os.Getenv("IMG_API_URL")
+		p, err := json.Marshal(postData)
+		if err != nil {
+			errs <- err
+		}
+
+		postURL := os.Getenv("IMG_API_URL") + "/generate"
 		if postURL == "" {
 			errs <- fmt.Errorf("URL is not loaded from .env")
 		}
 
-		resp, err := http.PostForm(postURL, postParams)
+		resp, err := http.Post(postURL, "application/json", bytes.NewBuffer(p))
 		if err != nil {
 			errs <- err
 		}
@@ -42,13 +51,13 @@ func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
 		}
 
 		// Unmarshal result
-		post := model.ImgGenResponse{}
-		err = json.Unmarshal(body, &post)
+		var res *model.ImgGenResponse
+		err = json.Unmarshal(body, &res)
 		if err != nil {
 			errs <- err
 		}
 
-		r <- post
+		r <- *res
 	}()
 
 	return r, errs
