@@ -13,6 +13,7 @@ mutation upsertDrink ($name: String!, $flavour: String!, $type: String!, $mL: In
         flavour
         price
         type
+        imageBase64
         mL
     }
 }

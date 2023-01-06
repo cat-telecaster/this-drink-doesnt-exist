@@ -23,6 +23,7 @@ export type AllPostDataType = {
     price: number;
     type: string;
     mL: number;
+    imageBase64: string;
     createdAt: string;
 }
 

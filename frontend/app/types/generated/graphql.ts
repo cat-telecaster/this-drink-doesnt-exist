@@ -25,6 +25,7 @@ export type Drink = {
   price?: Maybe<Scalars['Int']>;
   type: Scalars['String'];
   mL: Scalars['Int'];
+  imageBase64: Scalars['String'];
   createdAt?: Maybe<Scalars['String']>;
 };
 
@@ -58,6 +59,18 @@ export type MutationUpsertDrinkArgs = {
   input: NewDrink;
 };
 
+export type GetDrinksQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDrinksQuery = { __typename?: 'Query', drinks: Array<{ __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, imageBase64: string, createdAt?: string | null } | null> };
+
+export type GetDrinkIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetDrinkIdQuery = { __typename?: 'Query', drinkID?: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, imageBase64: string, createdAt?: string | null } | null };
+
 export type UpsertDrinkMutationVariables = Exact<{
   name: Scalars['String'];
   flavour: Scalars['String'];
@@ -67,35 +80,9 @@ export type UpsertDrinkMutationVariables = Exact<{
 }>;
 
 
-export type UpsertDrinkMutation = { __typename?: 'Mutation', upsertDrink: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number } };
-
-export type GetDrinksQueryVariables = Exact<{ [key: string]: never; }>;
+export type UpsertDrinkMutation = { __typename?: 'Mutation', upsertDrink: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, imageBase64: string, mL: number } };
 
 
-export type GetDrinksQuery = { __typename?: 'Query', drinks: Array<{ __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, createdAt?: string | null } | null> };
-
-export type GetDrinkIdQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type GetDrinkIdQuery = { __typename?: 'Query', drinkID?: { __typename?: 'Drink', id: string, name: string, flavour: string, price?: number | null, type: string, mL: number, createdAt?: string | null } | null };
-
-
-export const UpsertDrinkDocument = gql`
-    mutation upsertDrink($name: String!, $flavour: String!, $type: String!, $mL: Int!, $price: Int) {
-  upsertDrink(
-    input: {name: $name, flavour: $flavour, type: $type, mL: $mL, price: $price}
-  ) {
-    id
-    name
-    flavour
-    price
-    type
-    mL
-  }
-}
-    `;
 export const GetDrinksDocument = gql`
     query getDrinks {
   drinks {
@@ -105,6 +92,7 @@ export const GetDrinksDocument = gql`
     price
     type
     mL
+    imageBase64
     createdAt
   }
 }
@@ -118,7 +106,23 @@ export const GetDrinkIdDocument = gql`
     price
     type
     mL
+    imageBase64
     createdAt
+  }
+}
+    `;
+export const UpsertDrinkDocument = gql`
+    mutation upsertDrink($name: String!, $flavour: String!, $type: String!, $mL: Int!, $price: Int) {
+  upsertDrink(
+    input: {name: $name, flavour: $flavour, type: $type, mL: $mL, price: $price}
+  ) {
+    id
+    name
+    flavour
+    price
+    type
+    imageBase64
+    mL
   }
 }
     `;
@@ -130,14 +134,14 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    upsertDrink(variables: UpsertDrinkMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertDrinkMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UpsertDrinkMutation>(UpsertDrinkDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertDrink', 'mutation');
-    },
     getDrinks(variables?: GetDrinksQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDrinksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDrinksQuery>(GetDrinksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDrinks', 'query');
     },
     getDrinkID(variables: GetDrinkIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetDrinkIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetDrinkIdQuery>(GetDrinkIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getDrinkID', 'query');
+    },
+    upsertDrink(variables: UpsertDrinkMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpsertDrinkMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpsertDrinkMutation>(UpsertDrinkDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'upsertDrink', 'mutation');
     }
   };
 }

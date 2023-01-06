@@ -6,6 +6,7 @@ query getDrinks {
         price
         type
         mL
+        imageBase64
         createdAt
     }
 }
