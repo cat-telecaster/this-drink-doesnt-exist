@@ -36,11 +36,11 @@ const Home: NextPage<HomeProps> = ({ allPostsData }) => {
           <title>{siteTitle}</title>
         </Head>
         <section className={utilStyles.headingMd}>
-            <h2 className={utilStyles.headingLg}>AIAIAIAAIIAIAIAIIIIIIAAAAAA</h2>
+            <h2 className={utilStyles.headingLg}>i miss my cat very much :(</h2>
             <EntryForm/>
         </section>
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Blog</h2>
+          <h2 className={utilStyles.headingLg}>Drinks</h2>
           <ul className={utilStyles.list}>
             {allPostsData?.map(({ id, name, createdAt }) => (
                 <li className={utilStyles.listItem} key={id}>

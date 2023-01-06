@@ -4,7 +4,7 @@ import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 
-const name = "one scoop of ice cream";
+const name = "scp-294";
 export const siteTitle = 'Next.js Sample Website';
 
 interface LayoutProps {

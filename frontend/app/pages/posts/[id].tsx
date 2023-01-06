@@ -31,7 +31,10 @@ export default function Post({ postData }: any) {
             <div className={utilStyles.lightText}>
                 <ShowDateTime dateTimeString={postData.createdAt} />
             </div>
-            <div dangerouslySetInnerHTML={{ __html: `<p>${postData.flavour}</p><p>￥${postData.price}</p><p>${postData.type}</p><p>${postData.mL} mL</p>` }} />
+            <div dangerouslySetInnerHTML={{ __html: `<p>Flavour: ${postData.flavour}</p><p>Cost: ￥${postData.price}</p><p>Packaging: ${postData.type}</p><p>Size: ${postData.mL} mL</p>` }} />
+            <div>
+                <img src={"data:image/jpeg;base64, "+postData.imageBase64} />
+            </div>
         </article>
     </Layout>
 }
