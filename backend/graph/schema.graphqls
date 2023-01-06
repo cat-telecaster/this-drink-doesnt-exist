@@ -10,7 +10,7 @@ type Drink {
   type: String!
   mL: Int!
   imageBase64: String!
-  createdAt: String
+  createdAt: String!
 }
 
 type Query {

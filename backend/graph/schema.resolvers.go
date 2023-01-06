@@ -25,8 +25,6 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 	}
 	img := <-imageBase64
 
-	fmt.Println("gof")
-
 	drink, err := domain.NewDrink(
 		input.Name,
 		input.Flavour,
@@ -47,37 +45,31 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 		if queriedDrink != nil {
 			updatedId, err := repository.UpdateDrinkByID(id, *drink)
 			if err != nil {
-				return nil, fmt.Errorf("not found")
+				return nil, fmt.Errorf("not found: %v", err)
 			}
 			idStr := strconv.Itoa(int(updatedId))
 			updatedDrink, err := repository.QueryDrinkID(&idStr)
 			if err != nil {
-				return nil, fmt.Errorf("inserted drink not found")
+				return nil, fmt.Errorf("inserted drink not found: %v", err)
 			}
-
-			fmt.Printf("%v\n", updatedDrink)
 
 			return updatedDrink, nil
 		}
 	} else {
 		insertedId, err := repository.InsertDrink(*drink)
 		if err != nil {
-			return nil, fmt.Errorf("not found")
+			return nil, fmt.Errorf("not found: %v", err)
 		}
 		idStr := strconv.Itoa(int(insertedId))
 		insertedDrink, err := repository.QueryDrinkID(&idStr)
 		if err != nil {
-			return nil, fmt.Errorf("inserted drink not found")
+			return nil, fmt.Errorf("inserted drink not found: %v", err)
 		}
-
-		fmt.Printf("%v\n", insertedDrink)
 
 		return insertedDrink, nil
 	}
 
 	gqlDrink := DrinkDomain2Gql(*id, drink)
-
-	fmt.Printf("%v\n", gqlDrink)
 
 	return gqlDrink, nil
 }

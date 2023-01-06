@@ -6,7 +6,6 @@ interface DateTimeProps {
 
 export function ShowDate({ dateTimeString }: DateTimeProps) {
     const date = parseISO(dateTimeString)
-    console.log("THIS", dateTimeString)
     return <time dateTime={dateTimeString}>{format(date, "yyyy-MM-dd")}</time>
 }
 

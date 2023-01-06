@@ -1,13 +1,21 @@
 package repository
 
 import (
+	"encoding/base64"
 	"log"
 	"strconv"
-
 	"this-drink-doesnt-exist/graph/domain"
 	"this-drink-doesnt-exist/graph/model"
 	db "this-drink-doesnt-exist/internal/pkg/db/mysql"
+	"time"
 )
+
+//
+//type rawTime []byte
+//
+//func (t rawTime) Time() (time.Time, error) {
+//	return time.Parse(layout, string(t))
+//}
 
 // QueryAllDrinks return all drinks in table
 func QueryAllDrinks() ([]*model.Drink, error) {
@@ -26,9 +34,14 @@ func QueryAllDrinks() ([]*model.Drink, error) {
 	defer rows.Close()
 
 	var drinks []*model.Drink
+	var imgBytes []byte
+	var rawTime int64
 	for rows.Next() {
 		var drink model.Drink
-		rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.CreatedAt)
+		rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &rawTime, &imgBytes)
+		drink.ImageBase64 = base64.StdEncoding.EncodeToString(imgBytes)
+		t := time.Unix(rawTime, 0)
+		drink.CreatedAt = t.Format("2006-01-02 15:04:05")
 		drinks = append(drinks, &drink)
 	}
 
@@ -56,11 +69,16 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 	defer rows.Close()
 
 	var drink model.Drink
+	var imgBytes []byte
+	var rawTime int64
 	for rows.Next() {
-		err = rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &drink.ImageBase64, &drink.CreatedAt)
+		err := rows.Scan(&drink.ID, &drink.Name, &drink.Flavour, &drink.Price, &drink.Type, &drink.ML, &rawTime, &imgBytes)
 		if err != nil {
-			log.Fatal(err)
+			return nil, err
 		}
+		t := time.Unix(rawTime, 0)
+		drink.CreatedAt = t.Format("2006-01-02 15:04:05")
+		drink.ImageBase64 = base64.StdEncoding.EncodeToString(imgBytes)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -72,13 +90,13 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 
 // InsertDrink creates new drink
 func InsertDrink(drink domain.Drink) (int64, error) {
-	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL,image) VALUES(?,?,?,?,?,?)")
+	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL,image,created_at) VALUES(?,?,?,?,?,?,?)")
 	if err != nil {
 		return 0, err
 	}
 	defer insertQuery.Close()
 
-	res, err := insertQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, drink.Image)
+	res, err := insertQuery.Exec(drink.Name, drink.Flavour, drink.Price, drink.Type, drink.ML, drink.Image, drink.CreatedAt)
 	if err != nil {
 		return 0, err
 	}

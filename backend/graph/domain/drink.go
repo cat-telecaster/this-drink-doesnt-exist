@@ -2,15 +2,17 @@ package domain
 
 import (
 	"encoding/base64"
+	"time"
 )
 
 type Drink struct {
-	Name    string
-	Flavour string
-	Price   int
-	Type    string
-	ML      int
-	Image   []byte
+	Name      string
+	Flavour   string
+	Price     int
+	Type      string
+	ML        int
+	Image     []byte
+	CreatedAt int64
 }
 
 func NewDrink(
@@ -32,11 +34,12 @@ func NewDrink(
 	}
 
 	return &Drink{
-		Name:    name,
-		Flavour: flavour,
-		Price:   dPrice,
-		Type:    drinkType,
-		ML:      mL,
-		Image:   imgBytes,
+		Name:      name,
+		Flavour:   flavour,
+		Price:     dPrice,
+		Type:      drinkType,
+		ML:        mL,
+		Image:     imgBytes,
+		CreatedAt: time.Now().Unix(),
 	}, nil
 }

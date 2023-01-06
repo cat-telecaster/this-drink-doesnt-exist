@@ -256,7 +256,7 @@ type Drink {
   type: String!
   mL: Int!
   imageBase64: String!
-  createdAt: String
+  createdAt: String!
 }
 
 type Query {
@@ -693,11 +693,14 @@ func (ec *executionContext) _Drink_createdAt(ctx context.Context, field graphql.
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Drink_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2956,6 +2959,9 @@ func (ec *executionContext) _Drink(ctx context.Context, sel ast.SelectionSet, ob
 
 			out.Values[i] = ec._Drink_createdAt(ctx, field, obj)
 
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
