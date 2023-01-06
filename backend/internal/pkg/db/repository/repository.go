@@ -72,7 +72,7 @@ func QueryDrinkID(id *string) (*model.Drink, error) {
 
 // InsertDrink creates new drink
 func InsertDrink(drink domain.Drink) (int64, error) {
-	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL,image,) VALUES(?,?,?,?,?)")
+	insertQuery, err := db.Db.Prepare("insert into Drinks(name,flavour,price,type,mL,image) VALUES(?,?,?,?,?,?)")
 	if err != nil {
 		return 0, err
 	}

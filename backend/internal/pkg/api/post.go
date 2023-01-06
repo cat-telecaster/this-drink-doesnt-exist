@@ -7,8 +7,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-
-	"this-drink-doesnt-exist/graph/model"
 )
 
 type PostData struct {
@@ -16,8 +14,8 @@ type PostData struct {
 	NumImages int    `json:"num_images"`
 }
 
-func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
-	r := make(chan model.ImgGenResponse, 1)
+func GenerateImage(prompt string) (<-chan string, error) {
+	r := make(chan string, 1)
 	errs := make(chan error, 1)
 
 	postData := &PostData{
@@ -51,14 +49,27 @@ func GenerateImage(prompt string) (<-chan model.ImgGenResponse, <-chan error) {
 		}
 
 		// Unmarshal result
-		var res *model.ImgGenResponse
+		var res map[string]interface{}
 		err = json.Unmarshal(body, &res)
 		if err != nil {
 			errs <- err
 		}
 
-		r <- *res
+		genSlice, ok := res["generatedImgs"].([]interface{})
+		if !ok {
+			errs <- fmt.Errorf("could not decode 'generatedImgs' key in response body")
+		}
+
+		b64Image, ok := genSlice[0].(string)
+		if !ok {
+			errs <- fmt.Errorf("could not extract base64 string from 'generatedImgs' field in response body")
+		}
+
+		r <- b64Image
+		errs <- nil
 	}()
 
-	return r, errs
+	err := <-errs
+
+	return r, err
 }

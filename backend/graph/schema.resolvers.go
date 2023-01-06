@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-
 	"this-drink-doesnt-exist/graph/domain"
 	"this-drink-doesnt-exist/graph/generated"
 	"this-drink-doesnt-exist/graph/model"
@@ -20,11 +19,13 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 	id := input.ID
 
 	prompt := GeneratePrompt(input)
-	imageBase64, errCh := api.GenerateImage(prompt)
-	if errCh != nil {
-		return nil, <-errCh
+	imageBase64, err := api.GenerateImage(prompt)
+	if err != nil {
+		return nil, err
 	}
 	img := <-imageBase64
+
+	fmt.Println("gof")
 
 	drink, err := domain.NewDrink(
 		input.Name,
@@ -32,7 +33,7 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 		input.Price,
 		input.Type,
 		input.ML,
-		img.GeneratedImgs[0],
+		img,
 	)
 	if err != nil {
 		return nil, err
@@ -53,6 +54,9 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 			if err != nil {
 				return nil, fmt.Errorf("inserted drink not found")
 			}
+
+			fmt.Printf("%v\n", updatedDrink)
+
 			return updatedDrink, nil
 		}
 	} else {
@@ -65,10 +69,15 @@ func (r *mutationResolver) UpsertDrink(ctx context.Context, input model.NewDrink
 		if err != nil {
 			return nil, fmt.Errorf("inserted drink not found")
 		}
+
+		fmt.Printf("%v\n", insertedDrink)
+
 		return insertedDrink, nil
 	}
 
 	gqlDrink := DrinkDomain2Gql(*id, drink)
+
+	fmt.Printf("%v\n", gqlDrink)
 
 	return gqlDrink, nil
 }
